@@ -1,0 +1,28 @@
+# Documentation (private/local)
+docs/
+
+# Python Virtual Environments
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Node / Dependencies
+node_modules/
+dist/
+build/
+.next/
+
+# Environment files
+.env
+.env.local
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Docker logs
+*.log
+
