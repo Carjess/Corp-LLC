@@ -39,7 +39,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, onTabChange }) => {
         </div>
         <div className="navbar-user-info">
           <span className="user-role-badge">ADMIN</span>
-          <span className="user-email">admin@juliam.com</span>
+          <span className="user-email">juliam@admin.com</span>
         </div>
       </div>
 

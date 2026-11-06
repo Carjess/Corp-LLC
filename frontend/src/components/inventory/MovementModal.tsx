@@ -21,7 +21,6 @@ export const MovementModal: React.FC<MovementModalProps> = ({
   const [type, setType] = useState<MovementType>('ENTRADA');
   const [quantity, setQuantity] = useState<number | ''>('');
   const [referenceDoc, setReferenceDoc] = useState<string>('');
-  const [responsible, setResponsible] = useState<string>('Carlos J. - Jefe de Almacén');
   const [notes, setNotes] = useState<string>('');
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -33,7 +32,6 @@ export const MovementModal: React.FC<MovementModalProps> = ({
       setType('ENTRADA');
       setQuantity('');
       setReferenceDoc('');
-      setResponsible('Carlos J. - Jefe de Almacén');
       setNotes('');
       setError(null);
     }
@@ -56,11 +54,6 @@ export const MovementModal: React.FC<MovementModalProps> = ({
       return;
     }
 
-    if (!responsible.trim()) {
-      setError('Debe indicar el nombre del responsable del movimiento.');
-      return;
-    }
-
     setLoading(true);
 
     try {
@@ -69,7 +62,7 @@ export const MovementModal: React.FC<MovementModalProps> = ({
         type,
         quantity: Math.floor(qty),
         referenceDoc: referenceDoc.trim() || undefined,
-        responsible: responsible.trim(),
+        responsible: 'Administrador (juliam@admin.com)',
         notes: notes.trim() || undefined,
       });
 
@@ -177,34 +170,17 @@ export const MovementModal: React.FC<MovementModalProps> = ({
             </div>
           </div>
 
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="mov-ref">Documento de Referencia</label>
-              <input
-                id="mov-ref"
-                type="text"
-                value={referenceDoc}
-                onChange={(e) => setReferenceDoc(e.target.value)}
-                placeholder="Ej. REC-002, FAC-1049, AJU-001"
-                disabled={loading}
-              />
-              <span className="help-text">Orden de compra, factura, guía o número de ajuste</span>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="mov-responsible">
-                Responsable del Registro <span className="required">*</span>
-              </label>
-              <input
-                id="mov-responsible"
-                type="text"
-                value={responsible}
-                onChange={(e) => setResponsible(e.target.value)}
-                placeholder="Nombre del operador o auditor"
-                required
-                disabled={loading}
-              />
-            </div>
+          <div className="form-group">
+            <label htmlFor="mov-ref">Documento de Referencia</label>
+            <input
+              id="mov-ref"
+              type="text"
+              value={referenceDoc}
+              onChange={(e) => setReferenceDoc(e.target.value)}
+              placeholder="Ej. REC-002, FAC-1049, AJU-001"
+              disabled={loading}
+            />
+            <span className="help-text">Orden de compra, factura, guía o número de ajuste</span>
           </div>
 
           <div className="form-group">

@@ -28,9 +28,15 @@ export class SeedService implements OnApplicationBootstrap {
 
   async seedAll() {
     const userRepo = this.dataSource.getRepository(User);
-    const existingAdmin = await userRepo.findOneBy({ email: 'admin@juliam.com' });
+    const existingAdmin = await userRepo.findOne({
+      where: [{ email: 'juliam@admin.com' }, { email: 'admin@juliam.com' }],
+    });
 
     if (existingAdmin) {
+      if (existingAdmin.email !== 'juliam@admin.com') {
+        existingAdmin.email = 'juliam@admin.com';
+        await userRepo.save(existingAdmin);
+      }
       this.logger.log('Base de datos ya inicializada con semillas previas.');
       return;
     }
@@ -45,7 +51,7 @@ export class SeedService implements OnApplicationBootstrap {
       // 1. Usuario Administrador Predeterminado
       const admin = queryRunner.manager.create(User, {
         name: 'Administrador Juliam',
-        email: 'admin@juliam.com',
+        email: 'juliam@admin.com',
         password: 'admin123',
         role: UserRole.ADMIN,
         isActive: true,
@@ -200,7 +206,7 @@ export class SeedService implements OnApplicationBootstrap {
       const receipt = queryRunner.manager.create(GoodsReceipt, {
         receiptNumber: 'REC-001',
         purchaseOrderId: savedPo.id,
-        receiverName: 'Carlos Gómez (Recepción)',
+        receiverName: 'Operador de Recepción',
         notes: 'Entrega parcial en buen estado. Pendientes 200 paquetes según guía de remisión.',
       });
       const savedReceipt = await queryRunner.manager.save(receipt);
@@ -219,7 +225,7 @@ export class SeedService implements OnApplicationBootstrap {
         type: MovementType.ENTRADA,
         quantity: 300,
         referenceDoc: 'REC-001',
-        responsible: 'Carlos Gómez (Recepción)',
+        responsible: 'Operador de Recepción',
         notes: 'Ingreso al almacén por recepción física verificada (COM-001)',
       });
       await queryRunner.manager.save(receiptMovement);
