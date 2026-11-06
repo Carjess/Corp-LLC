@@ -15,6 +15,7 @@ import { PurchaseOrdersModule } from './modules/purchase-orders/purchase-orders.
 import { ReceiptsModule } from './modules/receipts/receipts.module.js';
 import { StockCountsModule } from './modules/stock-counts/stock-counts.module.js';
 import { ReplenishmentModule } from './modules/replenishment/replenishment.module.js';
+import { DashboardModule } from './modules/dashboard/dashboard.module.js';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ReplenishmentModule } from './modules/replenishment/replenishment.modul
     ReceiptsModule,
     StockCountsModule,
     ReplenishmentModule,
+    DashboardModule,
   ],
   controllers: [AppController],
   providers: [AppService],
