@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './App.css';
-import { Navbar, type TabKey } from './components/navigation/Navbar.js';
+import { Sidebar, type TabKey } from './components/layout/Sidebar.js';
 import { ProductList } from './components/products/ProductList.js';
 import { InventoryView } from './components/inventory/InventoryView.js';
 import { CustomerOrdersView } from './components/customer-orders/CustomerOrdersView.js';
@@ -11,7 +11,7 @@ function App() {
 
   return (
     <div className="app-layout">
-      <Navbar activeTab={activeTab} onTabChange={setActiveTab} />
+      <Sidebar activeTab={activeTab} onTabChange={setActiveTab} />
 
       <main className="main-content">
         {activeTab === 'products' && <ProductList />}
@@ -69,14 +69,14 @@ function App() {
             </div>
           </div>
         )}
-      </main>
 
-      <footer className="app-footer">
-        <p>
-          Juliam Corp LLC &bull; Sistema Centralizado de Inventario &bull; Solución Integral
-          2026
-        </p>
-      </footer>
+        <footer className="app-footer">
+          <p>
+            Juliam Corp LLC &bull; Sistema Centralizado de Inventario &bull; Solución Integral
+            2026
+          </p>
+        </footer>
+      </main>
     </div>
   );
 }
