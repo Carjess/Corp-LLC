@@ -34,10 +34,19 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
   background-color: var(--bg-main);
   color: var(--text-main);
   -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6, .d, .font-display, .sidebar-brand-text b, .kpi-value {
+  font-family: var(--font-display, 'Bricolage Grotesque', sans-serif) !important;
+  letter-spacing: -0.02em;
+}
+
+button, input, select, textarea, .btn, .sidebar-nav-item {
+  font-family: var(--font-body, 'DM Sans', sans-serif) !important;
 }
 
 /* Layout de dos columnas con Sidebar fijo */

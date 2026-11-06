@@ -7,10 +7,10 @@
   color-scheme: light !important;
 
   /* ========================================================================
-     1. TIPOGRAFÍAS
+     1. TIPOGRAFÍAS OFICIALES THE EMPIRE
      ======================================================================== */
-  --font-display: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Bricolage Grotesque', system-ui, -apple-system, sans-serif;
+  --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
   --font-code: ui-monospace, Menlo, Monaco, Consolas, monospace;
 
   /* ========================================================================
@@ -75,7 +75,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, .d, .font-display, .sidebar-brand-text b, .kpi-value {
   font-family: var(--font-display) !important;
   font-weight: 600;
   letter-spacing: -0.02em;
