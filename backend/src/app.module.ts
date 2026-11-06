@@ -8,6 +8,8 @@ import { SeedModule } from './database/seeds/seed.module.js';
 import { CategoriesModule } from './modules/categories/categories.module.js';
 import { ProductsModule } from './modules/products/products.module.js';
 import { InventoryModule } from './modules/inventory/inventory.module.js';
+import { CustomersModule } from './modules/customers/customers.module.js';
+import { CustomerOrdersModule } from './modules/customer-orders/customer-orders.module.js';
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { InventoryModule } from './modules/inventory/inventory.module.js';
     CategoriesModule,
     ProductsModule,
     InventoryModule,
+    CustomersModule,
+    CustomerOrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
