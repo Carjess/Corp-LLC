@@ -5,6 +5,8 @@ import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { databaseConfig } from './config/database.config.js';
 import { SeedModule } from './database/seeds/seed.module.js';
+import { CategoriesModule } from './modules/categories/categories.module.js';
+import { ProductsModule } from './modules/products/products.module.js';
 
 @Module({
   imports: [
@@ -14,10 +16,13 @@ import { SeedModule } from './database/seeds/seed.module.js';
     }),
     TypeOrmModule.forRoot(databaseConfig()),
     SeedModule,
+    CategoriesModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
+
 
 
