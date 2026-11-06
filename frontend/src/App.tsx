@@ -1,82 +1,111 @@
-import { useState, useEffect } from 'react'
-import './App.css'
-
-interface ApiStatus {
-  status: string
-  service: string
-  timestamp: string
-}
+import { useState } from 'react';
+import './App.css';
+import { Navbar, type TabKey } from './components/navigation/Navbar.js';
+import { ProductList } from './components/products/ProductList.js';
 
 function App() {
-  const [apiStatus, setApiStatus] = useState<ApiStatus | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
-  const [error, setError] = useState<string | null>(null)
-
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
-
-  useEffect(() => {
-    // Comprobación de conectividad inicial con el Backend NestJS
-    fetch(apiUrl)
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP error: ${res.status}`)
-        return res.json()
-      })
-      .then((data: ApiStatus) => {
-        setApiStatus(data)
-        setLoading(false)
-      })
-      .catch((err: Error) => {
-        setError(err.message)
-        setLoading(false)
-      })
-  }, [apiUrl])
+  const [activeTab, setActiveTab] = useState<TabKey>('products');
 
   return (
-    <div className="app-container">
-      <header className="app-header">
-        <div className="header-brand">
-          <h1>Juliam Corp LLC</h1>
-          <p className="subtitle">Sistema Centralizado de Gestión de Inventario</p>
-        </div>
-        <div className="badge-tag">MVP Web - Fase B</div>
-      </header>
+    <div className="app-layout">
+      <Navbar activeTab={activeTab} onTabChange={setActiveTab} />
 
-      <main className="app-main">
-        <section className="status-card">
-          <h2>Estado del Entorno Inicial (Paso 1)</h2>
-          <div className="status-grid">
-            <div className="status-item">
-              <span className="label">Frontend:</span>
-              <span className="value tag-success">React + Vite + TypeScript (Puerto 3000)</span>
-            </div>
-            <div className="status-item">
-              <span className="label">Backend API:</span>
-              <span className="value">
-                {loading && <span className="tag-warning">Verificando conexión...</span>}
-                {apiStatus && <span className="tag-success">Conectado (Puerto 3001)</span>}
-                {error && <span className="tag-info">Listo para enlazar con Docker ({apiUrl})</span>}
-              </span>
-            </div>
-            <div className="status-item">
-              <span className="label">Base de Datos:</span>
-              <span className="value tag-neutral">PostgreSQL (Puerto 5432)</span>
+      <main className="main-content">
+        {activeTab === 'products' && <ProductList />}
+
+        {activeTab === 'inventory' && (
+          <div className="placeholder-module">
+            <div className="placeholder-card">
+              <span className="step-tag">Paso 4 del Plan</span>
+              <h3>Módulo de Inventario & Kardex Inmutable</h3>
+              <p>
+                Este módulo se implementará en el <strong>Paso 4</strong>: Saldos en tiempo real (Físico, Reservado, Disponible) e historial inmutable de movimientos.
+              </p>
             </div>
           </div>
-          {apiStatus && (
-            <div className="api-response-box">
-              <p><strong>Respuesta de la API:</strong> {apiStatus.service}</p>
-              <small>Timestamp: {apiStatus.timestamp}</small>
+        )}
+
+        {activeTab === 'customer-orders' && (
+          <div className="placeholder-module">
+            <div className="placeholder-card">
+              <span className="step-tag">Paso 5 del Plan</span>
+              <h3>Módulo de Pedidos de Clientes (Demanda y Reservas)</h3>
+              <p>
+                Este módulo se implementará en el <strong>Paso 5</strong>: Registro de demanda, reserva de inventario físico y despachos con salidas automáticas del Kardex.
+              </p>
             </div>
-          )}
-        </section>
+          </div>
+        )}
+
+        {activeTab === 'purchase-orders' && (
+          <div className="placeholder-module">
+            <div className="placeholder-card">
+              <span className="step-tag">Paso 6 del Plan</span>
+              <h3>Módulo de Compras a Proveedores (Abastecimiento)</h3>
+              <p>
+                Este módulo se implementará en el <strong>Paso 6</strong>: Órdenes de compra a fabricantes, monitoreo de plazos y control de mercancía en tránsito.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'receipts' && (
+          <div className="placeholder-module">
+            <div className="placeholder-card">
+              <span className="step-tag">Paso 7 del Plan</span>
+              <h3>Módulo de Recepción de Mercancía en Almacén</h3>
+              <p>
+                Este módulo se implementará en el <strong>Paso 7</strong>: Verificación física en muelle de descarga, recepciones parciales y entradas automáticas al stock físico.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'stock-counts' && (
+          <div className="placeholder-module">
+            <div className="placeholder-card">
+              <span className="step-tag">Paso 8 del Plan</span>
+              <h3>Módulo de Conteos Físicos y Auditoría de Ajustes</h3>
+              <p>
+                Este módulo se implementará en el <strong>Paso 8</strong>: Conteos ciegos periódicos, cálculo de desviaciones y aprobación auditada de ajustes de inventario.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'replenishment' && (
+          <div className="placeholder-module">
+            <div className="placeholder-card">
+              <span className="step-tag">Paso 9 del Plan</span>
+              <h3>Módulo de Reposición y Sugerencias de Compra</h3>
+              <p>
+                Este módulo se implementará en el <strong>Paso 9</strong>: Motor matemático de Punto de Reorden ($ROP$), Posición de Inventario y sugerencias automáticas de abastecimiento.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'dashboard' && (
+          <div className="placeholder-module">
+            <div className="placeholder-card">
+              <span className="step-tag">Paso 10 del Plan</span>
+              <h3>Dashboard de Operaciones y Resumen Ejecutivo</h3>
+              <p>
+                Este módulo se implementará en el <strong>Paso 10</strong>: Indicadores de stock crítico, órdenes pendientes y movimientos consolidados en tiempo real.
+              </p>
+            </div>
+          </div>
+        )}
       </main>
 
       <footer className="app-footer">
-        <p>Juliam Corp LLC &bull; Almacén Central &bull; Solución de Inventario 2026</p>
+        <p>
+          Juliam Corp LLC &bull; Sistema Centralizado de Inventario &bull; Solución Integral
+          2026
+        </p>
       </footer>
     </div>
-  )
+  );
 }
 
-export default App
-
+export default App;
