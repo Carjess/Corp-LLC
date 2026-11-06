@@ -8,6 +8,7 @@ import { PurchaseOrdersView } from './components/purchase-orders/PurchaseOrdersV
 import { ReceiptsView } from './components/receipts/ReceiptsView.js';
 import { StockCountsView } from './components/stock-counts/StockCountsView.js';
 import { ReplenishmentView } from './components/replenishment/ReplenishmentView.js';
+import { DashboardView } from './components/dashboard/DashboardView.js';
 
 function App() {
   const [activeTab, setActiveTab] = useState<TabKey>('products');
@@ -31,17 +32,7 @@ function App() {
 
         {activeTab === 'replenishment' && <ReplenishmentView />}
 
-        {activeTab === 'dashboard' && (
-          <div className="placeholder-module">
-            <div className="placeholder-card">
-              <span className="step-tag">Paso 10 del Plan</span>
-              <h3>Dashboard de Operaciones y Resumen Ejecutivo</h3>
-              <p>
-                Este módulo se implementará en el <strong>Paso 10</strong>: Indicadores de stock crítico, órdenes pendientes y movimientos consolidados en tiempo real.
-              </p>
-            </div>
-          </div>
-        )}
+        {activeTab === 'dashboard' && <DashboardView onNavigate={setActiveTab} />}
 
         <footer className="app-footer">
           <p>
