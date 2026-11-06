@@ -1,0 +1,58 @@
+services:
+  # Base de Datos Relacional (PostgreSQL 16)
+  database:
+    image: postgres:16-alpine
+    container_name: juliam-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-juliam_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-juliam_secure_pass_2026}
+      POSTGRES_DB: ${POSTGRES_DB:-juliam_inventory}
+    ports:
+      - "${POSTGRES_PORT:-5433}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-juliam_user} -d ${POSTGRES_DB:-juliam_inventory}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Servidor Backend (NestJS + TypeScript)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: juliam-backend
+    restart: unless-stopped
+    environment:
+      PORT: 3001
+      BACKEND_PORT: 3001
+      DATABASE_HOST: database
+      DATABASE_PORT: 5432
+      DATABASE_USER: ${POSTGRES_USER:-juliam_user}
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD:-juliam_secure_pass_2026}
+      DATABASE_NAME: ${POSTGRES_DB:-juliam_inventory}
+    ports:
+      - "${BACKEND_PORT:-3001}:3001"
+    depends_on:
+      database:
+        condition: service_healthy
+
+  # Aplicación Frontend (React + Vite + Nginx)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:3001/api}
+    container_name: juliam-frontend
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+    name: juliam_postgres_data
