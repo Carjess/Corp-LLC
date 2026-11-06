@@ -4,6 +4,8 @@
    ========================================================================== */
 
 :root {
+  color-scheme: light !important;
+
   /* ========================================================================
      1. TIPOGRAFÍAS
      ======================================================================== */
@@ -55,13 +57,15 @@
      ======================================================================== */
   --shadow-card: 0 4px 20px -2px rgba(16, 35, 27, 0.05);
   --shadow-modal: 0 20px 40px -10px rgba(4, 15, 10, 0.25);
-  --overlay-backdrop: rgba(4, 15, 10, 0.65);
+  --overlay-backdrop: rgba(4, 15, 10, 0.55);
 }
 
 /* ==========================================================================
-   ESTILOS BASE
+   ESTILOS BASE (SIEMPRE MODO CLARO)
    ========================================================================== */
+html,
 body {
+  color-scheme: light !important;
   margin: 0;
   padding: 0;
   background-color: var(--bg-app);
@@ -71,8 +75,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6, .font-display {
-  font-family: var(--font-display);
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display) !important;
   font-weight: 600;
   letter-spacing: -0.02em;
   margin: 0;
@@ -83,10 +87,6 @@ p {
   margin: 0;
 }
 
-.font-code {
-  font-family: var(--font-code);
-}
-
 .text-muted {
   color: var(--text-muted) !important;
 }
@@ -95,27 +95,27 @@ p {
    CLASES REUTILIZABLES DE COMPONENTES
    ========================================================================== */
 
-/* Tarjetas (28px de radio) */
+/* Tarjetas (28px de radio exactas al diseño de referencia) */
 .card {
   background: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: 28px !important;
   box-shadow: var(--shadow-card);
-  transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
-.card-brand, .card.card-brand {
+.card-brand {
   background: var(--brand-primary) !important;
   color: var(--brand-primary-text) !important;
   border-color: var(--brand-primary) !important;
 }
 
-/* Botones en píldora */
+/* Botones */
 .btn {
   border: 0 !important;
   border-radius: 999px !important;
-  padding: 10px 22px !important;
-  min-height: 42px;
+  padding: 12px 24px !important;
+  min-height: 44px;
   background: var(--brand-primary) !important;
   color: var(--brand-primary-text) !important;
   font-family: var(--font-body) !important;
@@ -146,13 +146,13 @@ p {
   cursor: not-allowed;
 }
 
-.btn-secondary {
+.btn2, .btn-secondary {
   background: var(--bg-surface) !important;
   border: 1px solid var(--border-color) !important;
   color: var(--text-main) !important;
 }
 
-.btn-secondary:hover:not(:disabled) {
+.btn2:hover:not(:disabled), .btn-secondary:hover:not(:disabled) {
   background: var(--bg-app) !important;
   border-color: var(--text-muted) !important;
 }
@@ -163,20 +163,20 @@ p {
   border: 1px solid transparent !important;
 }
 
-.btn-sm {
-  padding: 6px 14px !important;
-  min-height: 32px;
+.btn-sm, .sm {
+  padding: 8px 16px !important;
+  min-height: 36px;
   font-size: 13px !important;
 }
 
-/* Inputs y Controles de Formulario */
-.form-input {
-  width: 100%;
+/* Inputs y Controles de Formulario (Garantizados blancos sin modo oscuro) */
+.in, .form-input, input:not([type="checkbox"]):not([type="radio"]), select, textarea {
+  color-scheme: light !important;
   border: 1px solid var(--border-color) !important;
-  border-radius: 16px !important;
-  padding: 12px 16px !important;
-  min-height: 44px;
-  background: var(--bg-input) !important;
+  border-radius: 18px !important;
+  padding: 12px 18px !important;
+  min-height: 46px;
+  background: #ffffff !important;
   font-family: var(--font-body) !important;
   font-size: 14px !important;
   color: var(--text-main) !important;
@@ -185,17 +185,17 @@ p {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.form-input:focus {
+.in:focus, .form-input:focus, input:focus, select:focus, textarea:focus {
   border-color: var(--brand-primary) !important;
-  box-shadow: 0 0 0 3px rgba(78, 222, 163, 0.25);
+  box-shadow: 0 0 0 3px rgba(78, 222, 163, 0.25) !important;
 }
 
-.form-input::placeholder {
-  color: var(--text-muted);
+.in::placeholder, .form-input::placeholder, input::placeholder, textarea::placeholder {
+  color: var(--text-muted) !important;
   opacity: 0.75;
 }
 
-.form-label {
+label, .form-label {
   display: block;
   font-size: 13px;
   color: var(--text-muted);
@@ -216,38 +216,49 @@ p {
   line-height: 1;
 }
 
-.pill-success {
+.pill-success, .pill.ok {
   background: var(--status-success-bg);
   color: var(--status-success-text);
 }
 
-.pill-warning {
+.pill-warning, .pill.wt {
   background: var(--status-warning-bg);
   color: var(--status-warning-text);
 }
 
-.pill-info {
+.pill-info, .pill.as {
   background: var(--status-info-bg);
   color: var(--status-info-text);
 }
 
-.pill-danger {
+.pill-danger, .pill.no {
   background: var(--status-danger-bg);
   color: var(--status-danger-text);
 }
 
-.pill-pending {
+.pill-pending, .pill.pe {
   background: var(--status-pending-bg);
   color: var(--status-pending-text);
 }
 
-.pill-tag {
+.pill-tag, .pill.tg {
   background: var(--status-tag-bg);
   color: var(--status-tag-text);
   border: 1px solid var(--status-tag-border);
 }
 
-/* Tablas con estilo suave */
+/* ==========================================================================
+   ESTRUCTURA DE TABLA THE EMPIRE
+   ========================================================================== */
+.table-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 28px !important;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  width: 100%;
+}
+
 .data-table {
   width: 100%;
   border-collapse: collapse;
@@ -255,25 +266,32 @@ p {
 }
 
 .data-table th {
-  background-color: var(--bg-app);
+  background-color: var(--bg-surface);
   color: var(--text-muted);
   font-weight: 600;
   font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  padding: 14px 16px;
+  letter-spacing: 0.06em;
+  padding: 16px 24px;
   border-bottom: 1px solid var(--border-color);
   text-align: left;
 }
 
 .data-table td {
-  padding: 14px 16px;
+  padding: 14px 24px;
   border-bottom: 1px solid var(--border-color);
   color: var(--text-main);
   vertical-align: middle;
+}
+
+.data-table tbody tr {
+  transition: background-color 0.15s ease;
 }
 
 .data-table tbody tr:hover {
   background-color: #fafdfb;
 }
 
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
