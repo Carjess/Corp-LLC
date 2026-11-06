@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { customerOrdersService } from '../../services/customer-orders/customer-orders.service.js';
 import type { CustomerOrder } from '../../services/customer-orders/customer-orders.types.js';
+import { Modal } from '../ui/Modal.js';
+import { Button } from '../ui/Button.js';
+import { Pill } from '../ui/Pill.js';
 
 interface DispatchModalProps {
   isOpen: boolean;
@@ -39,7 +42,7 @@ export const DispatchModal: React.FC<DispatchModalProps> = ({
         demanded: item.quantityDemanded,
         alreadyDispatched: item.quantityDispatched,
         reserved: item.quantityReserved,
-        toDispatch: item.quantityReserved, // Por defecto despacha el saldo reservado
+        toDispatch: item.quantityReserved,
       }));
       setDispatchRows(rows);
       setNotes('');
@@ -109,119 +112,121 @@ export const DispatchModal: React.FC<DispatchModalProps> = ({
   };
 
   return (
-    <div className="modal-backdrop">
-      <div className="modal-card modal-large">
-        <div className="modal-header">
-          <div>
-            <h3>Registrar Despacho de Pedido — {order.orderNumber}</h3>
-            <p className="modal-subtitle">
-              Cliente: <strong>{order.customer?.name}</strong> &bull; Salida automática de inventario físico en Kardex.
-            </p>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={`Despacho de Pedido — ${order.orderNumber}`}
+      subtitle={`Cliente: ${order.customer?.name} • Genera salida física inmutable en el Kardex.`}
+      maxWidth={760}
+    >
+      {error && <div className="alert-error">{error}</div>}
+
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            background: 'var(--bg-app)',
+            padding: '12px 18px',
+            borderRadius: 16,
+            border: '1px solid var(--border-color)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span className="text-muted" style={{ fontSize: 13 }}>Estado Actual:</span>
+            <Pill variant={order.status === 'COMPLETED' ? 'success' : 'warning'}>
+              {order.status}
+            </Pill>
           </div>
-          <button type="button" className="close-btn" onClick={onClose} disabled={loading}>
-            &times;
+          <button
+            type="button"
+            className="btn btn2 sm"
+            onClick={handleDispatchAll}
+            disabled={loading}
+          >
+            Despachar Todo el Saldo Reservado
           </button>
         </div>
 
-        {error && <div className="alert-error">{error}</div>}
-
-        <form onSubmit={handleSubmit} className="modal-form">
-          <div className="dispatch-summary-banner">
-            <div>
-              <span className="text-muted text-xs">Estado Actual:</span>{' '}
-              <span className="badge badge-warning">{order.status}</span>
-            </div>
-            <button
-              type="button"
-              className="btn btn-secondary btn-sm"
-              onClick={handleDispatchAll}
-              disabled={loading}
-            >
-              Despachar Todo el Saldo Reservado
-            </button>
-          </div>
-
-          <div className="table-wrapper mt-3">
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th>SKU</th>
-                  <th>Producto</th>
-                  <th style={{ textAlign: 'center' }}>Solicitado</th>
-                  <th style={{ textAlign: 'center' }}>Ya Despachado</th>
-                  <th style={{ textAlign: 'center' }}>Reservado</th>
-                  <th style={{ textAlign: 'right' }}>Cantidad a Despachar</th>
+        <div className="table-wrapper">
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>SKU</th>
+                <th>Producto</th>
+                <th style={{ textAlign: 'center' }}>Solicitado</th>
+                <th style={{ textAlign: 'center' }}>Ya Despachado</th>
+                <th style={{ textAlign: 'center' }}>Reservado</th>
+                <th style={{ textAlign: 'right' }}>A Despachar</th>
+              </tr>
+            </thead>
+            <tbody>
+              {dispatchRows.map((row) => (
+                <tr key={row.itemId}>
+                  <td>
+                    <span className="sku-badge">{row.sku}</span>
+                  </td>
+                  <td><strong>{row.productName}</strong></td>
+                  <td style={{ textAlign: 'center' }}>{row.demanded}</td>
+                  <td style={{ textAlign: 'center', color: '#10b981', fontWeight: 600 }}>
+                    {row.alreadyDispatched}
+                  </td>
+                  <td style={{ textAlign: 'center', color: '#f59e0b', fontWeight: 700 }}>
+                    {row.reserved}
+                  </td>
+                  <td style={{ textAlign: 'right' }}>
+                    <input
+                      className="in"
+                      type="number"
+                      min="0"
+                      max={row.reserved}
+                      step="1"
+                      value={row.toDispatch}
+                      onChange={(e) =>
+                        handleQuantityChange(
+                          row.itemId,
+                          e.target.value === '' ? '' : Number(e.target.value),
+                        )
+                      }
+                      style={{ width: '100px', textAlign: 'right', padding: '6px 10px', minHeight: 38 }}
+                      disabled={loading || row.reserved === 0}
+                    />
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {dispatchRows.map((row) => (
-                  <tr key={row.itemId}>
-                    <td className="sku-cell">{row.sku}</td>
-                    <td className="product-name-cell">{row.productName}</td>
-                    <td style={{ textAlign: 'center' }}>{row.demanded}</td>
-                    <td style={{ textAlign: 'center' }}>
-                      <span className="text-success">{row.alreadyDispatched}</span>
-                    </td>
-                    <td style={{ textAlign: 'center' }}>
-                      <strong className="text-warning">{row.reserved}</strong>
-                    </td>
-                    <td style={{ textAlign: 'right' }}>
-                      <input
-                        type="number"
-                        min="0"
-                        max={row.reserved}
-                        step="1"
-                        value={row.toDispatch}
-                        onChange={(e) =>
-                          handleQuantityChange(
-                            row.itemId,
-                            e.target.value === '' ? '' : Number(e.target.value),
-                          )
-                        }
-                        style={{ width: '100px', textAlign: 'right' }}
-                        disabled={loading || row.reserved === 0}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
-          <div className="form-group mt-3">
-            <label htmlFor="dispatch-notes">Observaciones del Despacho</label>
-            <textarea
-              id="dispatch-notes"
-              rows={2}
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              placeholder="Número de guía de transporte, chofer, placa del camión o nota de entrega..."
-              disabled={loading}
-            />
-          </div>
+        <div>
+          <label className="form-label" htmlFor="dispatch-notes">Observaciones del Despacho</label>
+          <textarea
+            id="dispatch-notes"
+            className="in"
+            style={{ minHeight: 65, resize: 'vertical' }}
+            rows={2}
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder="Guía de transporte, chofer, placa del camión o nota de entrega..."
+            disabled={loading}
+          />
+        </div>
 
-          <div className="modal-actions">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={onClose}
-              disabled={loading}
-            >
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={loading || totalToDispatch <= 0}
-            >
-              {loading
-                ? 'Generando Salida de Kardex...'
-                : `Confirmar Despacho (${totalToDispatch} unidades)`}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 8, paddingTop: 16, borderTop: '1px solid var(--border-color)' }}>
+          <Button variant="secondary" onClick={onClose} disabled={loading} type="button">
+            Cancelar
+          </Button>
+          <Button
+            variant="primary"
+            type="submit"
+            isLoading={loading}
+            disabled={loading || totalToDispatch <= 0}
+          >
+            {loading ? 'Generando Salida...' : `Confirmar Despacho (${totalToDispatch} uds)`}
+          </Button>
+        </div>
+      </form>
+    </Modal>
   );
 };
-

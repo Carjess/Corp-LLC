@@ -4,6 +4,9 @@ import { inventoryService } from '../../services/inventory/inventory.service.js'
 import { customerOrdersService } from '../../services/customer-orders/customer-orders.service.js';
 import type { Customer } from '../../services/customers/customers.types.js';
 import type { ProductStockSummary } from '../../services/inventory/inventory.types.js';
+import { Modal } from '../ui/Modal.js';
+import { Button } from '../ui/Button.js';
+import { Pill } from '../ui/Pill.js';
 
 interface CreateOrderModalProps {
   isOpen: boolean;
@@ -53,7 +56,6 @@ export const CreateOrderModal: React.FC<CreateOrderModalProps> = ({
       }
       setOrderNumber('');
       setNotes('');
-      // Primer producto con stock disponible como sugerencia inicial
       const firstAvailable = stockList.find((p) => p.availableStock > 0);
       setItems([
         {
@@ -105,11 +107,10 @@ export const CreateOrderModal: React.FC<CreateOrderModalProps> = ({
     setError(null);
 
     if (!selectedCustomerId) {
-      setError('Debe seleccionar un cliente distribuidor.');
+      setError('Debe seleccionar un cliente.');
       return;
     }
 
-    // Validar ítems
     const validItems = items.filter(
       (item) => item.productId && Number(item.quantityDemanded) > 0,
     );
@@ -119,12 +120,15 @@ export const CreateOrderModal: React.FC<CreateOrderModalProps> = ({
       return;
     }
 
-    // Validar que no haya sobreventa
     for (const item of validItems) {
       const stock = getProductStock(item.productId);
-      if (stock && Number(item.quantityDemanded) > stock.availableStock) {
+      if (!stock) {
+        setError(`Producto con ID ${item.productId} no encontrado en almacén.`);
+        return;
+      }
+      if (Number(item.quantityDemanded) > stock.availableStock) {
         setError(
-          `Stock disponible insuficiente para [${stock.sku}] ${stock.name}. Solicitado: ${item.quantityDemanded}, Disponible: ${stock.availableStock}.`,
+          `Stock insuficiente para "${stock.name}". Disponible: ${stock.availableStock}, Solicitado: ${item.quantityDemanded}. Bloqueo preventivo de sobreventa activado.`,
         );
         return;
       }
@@ -149,7 +153,7 @@ export const CreateOrderModal: React.FC<CreateOrderModalProps> = ({
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError('Error al registrar el pedido de cliente.');
+        setError('Error al crear el pedido de cliente.');
       }
     } finally {
       setLoading(false);
@@ -157,192 +161,216 @@ export const CreateOrderModal: React.FC<CreateOrderModalProps> = ({
   };
 
   return (
-    <div className="modal-backdrop">
-      <div className="modal-card modal-large">
-        <div className="modal-header">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Nuevo Pedido de Distribuidor"
+      subtitle="Bloqueo automático de sobreventa y reserva inmediata de stock en almacén."
+      maxWidth={780}
+    >
+      {error && <div className="alert-error">{error}</div>}
+
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1.2fr', gap: 16 }}>
           <div>
-            <h3>Registrar Pedido de Cliente</h3>
-            <p className="modal-subtitle">
-              Reserva inmediata de inventario. No es posible prometer mercancía si el stock disponible es insuficiente.
-            </p>
-          </div>
-          <button type="button" className="close-btn" onClick={onClose} disabled={loading}>
-            &times;
-          </button>
-        </div>
-
-        {error && <div className="alert-error">{error}</div>}
-
-        <form onSubmit={handleSubmit} className="modal-form">
-          <div className="form-row">
-            <div className="form-group" style={{ flex: 2 }}>
-              <label htmlFor="order-customer">
-                Cliente Distribuidor <span className="required">*</span>
-              </label>
-              <select
-                id="order-customer"
-                value={selectedCustomerId}
-                onChange={(e) => setSelectedCustomerId(e.target.value)}
-                required
-                disabled={loading}
-              >
-                <option value="" disabled>
-                  Seleccione un distribuidor...
+            <label className="form-label" htmlFor="order-customer">
+              Cliente Distribuidor *
+            </label>
+            <select
+              id="order-customer"
+              className="in"
+              value={selectedCustomerId}
+              onChange={(e) => setSelectedCustomerId(e.target.value)}
+              required
+              disabled={loading}
+              style={{ cursor: 'pointer' }}
+            >
+              <option value="" disabled>
+                Seleccione un distribuidor...
+              </option>
+              {customers.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name} {c.contactName ? `(${c.contactName})` : ''}
                 </option>
-                {customers.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name} {c.contactName ? `(${c.contactName})` : ''}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="form-group" style={{ flex: 1 }}>
-              <label htmlFor="order-number">N° de Orden (Opcional)</label>
-              <input
-                id="order-number"
-                type="text"
-                value={orderNumber}
-                onChange={(e) => setOrderNumber(e.target.value)}
-                placeholder="Autogenerado ej. PED-003"
-                disabled={loading}
-              />
-            </div>
+              ))}
+            </select>
           </div>
 
-          <div className="order-items-section">
-            <div className="section-title-bar">
-              <h4>Líneas de Productos y Disponibilidad en Almacén</h4>
-              <button
-                type="button"
-                className="btn btn-secondary btn-sm"
-                onClick={handleAddItem}
-                disabled={loading}
-              >
-                + Agregar Producto
-              </button>
-            </div>
-
-            <div className="order-items-list">
-              {items.map((item, idx) => {
-                const stock = getProductStock(item.productId);
-                const isOverStock =
-                  stock &&
-                  item.quantityDemanded !== '' &&
-                  Number(item.quantityDemanded) > stock.availableStock;
-
-                return (
-                  <div key={idx} className="order-item-row">
-                    <div className="form-group flex-2">
-                      <label className="text-xs">Producto (SKU & Nombre)</label>
-                      <select
-                        value={item.productId}
-                        onChange={(e) =>
-                          handleItemChange(idx, 'productId', e.target.value)
-                        }
-                        required
-                        disabled={loading}
-                      >
-                        <option value="" disabled>
-                          Seleccione un producto...
-                        </option>
-                        {stockItems.map((p) => (
-                          <option key={p.productId} value={p.productId}>
-                            [{p.sku}] {p.name} — Disp: {p.availableStock} {p.unitMeasure}s
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className="form-group flex-1">
-                      <label className="text-xs">Disponible</label>
-                      <div className="stock-info-box">
-                        <span
-                          className={`badge ${stock && stock.availableStock > 0 ? 'badge-success' : 'badge-danger'}`}
-                        >
-                          {stock ? `${stock.availableStock} ${stock.unitMeasure}s` : '—'}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="form-group flex-1">
-                      <label className="text-xs">Cantidad Requerida</label>
-                      <input
-                        type="number"
-                        min="1"
-                        step="1"
-                        value={item.quantityDemanded}
-                        onChange={(e) =>
-                          handleItemChange(
-                            idx,
-                            'quantityDemanded',
-                            e.target.value === '' ? '' : Number(e.target.value),
-                          )
-                        }
-                        placeholder="Ej. 50"
-                        className={isOverStock ? 'input-error' : ''}
-                        required
-                        disabled={loading}
-                      />
-                    </div>
-
-                    <div className="row-action-box">
-                      {items.length > 1 && (
-                        <button
-                          type="button"
-                          className="btn-delete-row"
-                          onClick={() => handleRemoveItem(idx)}
-                          disabled={loading}
-                          title="Eliminar línea"
-                        >
-                          &times;
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {hasInsufficientStock && (
-              <div className="alert-warning-box">
-                <strong>Advertencia:</strong> Una o más líneas solicitan una cantidad superior al Stock Disponible. Ajuste las cantidades antes de confirmar.
-              </div>
-            )}
-          </div>
-
-          <div className="form-group mt-3">
-            <label htmlFor="order-notes">Notas u Observaciones</label>
-            <textarea
-              id="order-notes"
-              rows={2}
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              placeholder="Detalles de entrega, horario o condiciones comerciales..."
+          <div>
+            <label className="form-label" htmlFor="order-number">N° de Orden (Opcional)</label>
+            <input
+              id="order-number"
+              className="in"
+              type="text"
+              value={orderNumber}
+              onChange={(e) => setOrderNumber(e.target.value)}
+              placeholder="Autogenerado ej. PED-003"
               disabled={loading}
             />
           </div>
+        </div>
 
-          <div className="modal-actions">
+        <div style={{ background: 'var(--bg-app)', padding: 18, borderRadius: 20, border: '1px solid var(--border-color)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+            <h4 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)' }}>
+              Líneas de Productos y Disponibilidad en Almacén
+            </h4>
             <button
               type="button"
-              className="btn btn-secondary"
-              onClick={onClose}
+              className="btn btn2 sm"
+              onClick={handleAddItem}
               disabled={loading}
             >
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={loading || hasInsufficientStock}
-            >
-              {loading ? 'Creando y Reservando...' : 'Confirmar Pedido y Reservar Stock'}
+              + Agregar Producto
             </button>
           </div>
-        </form>
-      </div>
-    </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {items.map((item, idx) => {
+              const stock = getProductStock(item.productId);
+              const isOverStock =
+                stock &&
+                item.quantityDemanded !== '' &&
+                Number(item.quantityDemanded) > stock.availableStock;
+
+              return (
+                <div
+                  key={idx}
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '2fr 110px 140px 36px',
+                    gap: 12,
+                    alignItems: 'center',
+                    background: '#ffffff',
+                    padding: '12px 14px',
+                    borderRadius: 16,
+                    border: isOverStock ? '1px solid #f87171' : '1px solid var(--border-color)',
+                  }}
+                >
+                  <div>
+                    <label className="form-label" style={{ fontSize: 11 }}>Producto</label>
+                    <select
+                      className="in"
+                      style={{ padding: '8px 12px', minHeight: 38, fontSize: 13, cursor: 'pointer' }}
+                      value={item.productId}
+                      onChange={(e) =>
+                        handleItemChange(idx, 'productId', e.target.value)
+                      }
+                      required
+                      disabled={loading}
+                    >
+                      <option value="" disabled>
+                        Seleccione producto...
+                      </option>
+                      {stockItems.map((p) => (
+                        <option key={p.productId} value={p.productId}>
+                          [{p.sku}] {p.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="form-label" style={{ fontSize: 11 }}>Disponible</label>
+                    <div style={{ minHeight: 38, display: 'flex', alignItems: 'center' }}>
+                      <Pill variant={stock && stock.availableStock > 0 ? 'success' : 'danger'}>
+                        {stock ? `${stock.availableStock}` : '—'}
+                      </Pill>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="form-label" style={{ fontSize: 11 }}>Cantidad</label>
+                    <input
+                      className="in"
+                      style={{ padding: '8px 12px', minHeight: 38, fontSize: 13 }}
+                      type="number"
+                      min="1"
+                      step="1"
+                      value={item.quantityDemanded}
+                      onChange={(e) =>
+                        handleItemChange(
+                          idx,
+                          'quantityDemanded',
+                          e.target.value === '' ? '' : Number(e.target.value),
+                        )
+                      }
+                      placeholder="Ej. 50"
+                      required
+                      disabled={loading}
+                    />
+                  </div>
+
+                  <div style={{ paddingTop: 18 }}>
+                    {items.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveItem(idx)}
+                        disabled={loading}
+                        style={{
+                          background: 'transparent',
+                          border: 'none',
+                          color: '#ef4444',
+                          cursor: 'pointer',
+                          fontSize: 20,
+                          lineHeight: 1,
+                        }}
+                        title="Eliminar línea"
+                      >
+                        &times;
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {hasInsufficientStock && (
+            <div
+              style={{
+                marginTop: 12,
+                padding: '10px 14px',
+                borderRadius: 12,
+                backgroundColor: 'var(--status-warning-bg)',
+                color: 'var(--status-warning-text)',
+                fontSize: 13,
+                fontWeight: 500,
+              }}
+            >
+              <strong>Advertencia:</strong> Una o más líneas solicitan una cantidad superior al Stock Disponible. Ajuste las cantidades antes de confirmar.
+            </div>
+          )}
+        </div>
+
+        <div>
+          <label className="form-label" htmlFor="order-notes">Notas u Observaciones</label>
+          <textarea
+            id="order-notes"
+            className="in"
+            style={{ minHeight: 65, resize: 'vertical' }}
+            rows={2}
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder="Detalles de entrega, horario o condiciones comerciales..."
+            disabled={loading}
+          />
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 8, paddingTop: 16, borderTop: '1px solid var(--border-color)' }}>
+          <Button variant="secondary" onClick={onClose} disabled={loading} type="button">
+            Cancelar
+          </Button>
+          <Button
+            variant="primary"
+            type="submit"
+            isLoading={loading}
+            disabled={loading || hasInsufficientStock}
+          >
+            Confirmar Pedido y Reservar Stock
+          </Button>
+        </div>
+      </form>
+    </Modal>
   );
 };
-
