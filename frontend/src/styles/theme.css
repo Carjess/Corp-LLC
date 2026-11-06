@@ -171,6 +171,7 @@ p {
 
 /* Inputs y Controles de Formulario (Garantizados blancos sin modo oscuro) */
 .in, .form-input, input:not([type="checkbox"]):not([type="radio"]), select, textarea {
+  width: 100% !important;
   color-scheme: light !important;
   border: 1px solid var(--border-color) !important;
   border-radius: 18px !important;
@@ -180,9 +181,15 @@ p {
   font-family: var(--font-body) !important;
   font-size: 14px !important;
   color: var(--text-main) !important;
-  box-sizing: border-box;
+  box-sizing: border-box !important;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+textarea.in, textarea.form-input, textarea {
+  width: 100% !important;
+  min-height: 84px;
+  resize: vertical;
 }
 
 .in:focus, .form-input:focus, input:focus, select:focus, textarea:focus {
@@ -197,10 +204,18 @@ p {
 
 label, .form-label {
   display: block;
-  font-size: 13px;
+  font-size: 13.5px;
+  color: var(--text-main);
+  margin: 0 0 6px 2px;
+  font-weight: 600;
+}
+
+.help-text {
+  display: block;
+  font-size: 11.5px;
   color: var(--text-muted);
-  margin: 0 0 6px 4px;
-  font-weight: 500;
+  margin-top: 5px;
+  line-height: 1.35;
 }
 
 /* Insignias / Píldoras de Estado (Pills) */

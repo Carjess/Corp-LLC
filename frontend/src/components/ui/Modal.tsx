@@ -99,16 +99,22 @@ export const Modal: React.FC<ModalProps> = ({
                 onClick={onClose}
                 aria-label="Cerrar modal"
                 style={{
-                  width: 34,
-                  height: 34,
+                  width: 36,
+                  height: 36,
+                  minHeight: 36,
                   padding: 0,
                   borderRadius: '50%',
-                  display: 'flex',
+                  display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  backgroundColor: 'var(--bg-app)',
+                  border: '1px solid var(--border-color)',
+                  color: 'var(--text-main)',
+                  cursor: 'pointer',
+                  flexShrink: 0,
                 }}
               >
-                <X size={16} />
+                <X size={18} style={{ strokeWidth: 2.2 }} />
               </button>
             )}
           </div>

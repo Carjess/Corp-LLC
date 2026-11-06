@@ -23,6 +23,7 @@ export const MovementModal: React.FC<MovementModalProps> = ({
   const [type, setType] = useState<MovementType>('ENTRADA');
   const [quantity, setQuantity] = useState<number | ''>('');
   const [referenceDoc, setReferenceDoc] = useState<string>('');
+  const [responsible, setResponsible] = useState<string>('Administrador (juliam@admin.com)');
   const [notes, setNotes] = useState<string>('');
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -34,6 +35,7 @@ export const MovementModal: React.FC<MovementModalProps> = ({
       setType('ENTRADA');
       setQuantity('');
       setReferenceDoc('');
+      setResponsible('Administrador (juliam@admin.com)');
       setNotes('');
       setError(null);
     }
@@ -64,7 +66,7 @@ export const MovementModal: React.FC<MovementModalProps> = ({
         type,
         quantity: Math.floor(qty),
         referenceDoc: referenceDoc.trim() || undefined,
-        responsible: 'Administrador (juliam@admin.com)',
+        responsible: responsible.trim() || 'Administrador (juliam@admin.com)',
         notes: notes.trim() || undefined,
       });
 
@@ -84,13 +86,13 @@ export const MovementModal: React.FC<MovementModalProps> = ({
   const getMovementDescription = (movType: MovementType) => {
     switch (movType) {
       case 'ENTRADA':
-        return 'Suma unidades al Stock Físico (ingreso o recepción).';
+        return 'Suma unidades al Stock Físico (ingreso o recepción)';
       case 'SALIDA':
-        return 'Resta unidades al Stock Físico. Requiere saldo físico suficiente.';
+        return 'Resta unidades al Stock Físico (despacho o consumo)';
       case 'AJUSTE_POSITIVO':
-        return 'Ajuste auditado: incrementa el Stock Físico por sobrante en conteo.';
+        return 'Incrementa Stock Físico por sobrante verificado';
       case 'AJUSTE_NEGATIVO':
-        return 'Ajuste auditado: reduce el Stock Físico por merma o rotura.';
+        return 'Reduce Stock Físico por merma o rotura auditada';
     }
   };
 
@@ -100,11 +102,12 @@ export const MovementModal: React.FC<MovementModalProps> = ({
       onClose={onClose}
       title="Registrar Movimiento de Kardex"
       subtitle="Transacción inmutable con actualización automática de existencias físicas y disponibles."
-      maxWidth={620}
+      maxWidth={640}
     >
-      {error && <div className="alert-error">{error}</div>}
+      {error && <div className="alert-error" style={{ marginBottom: 16 }}>{error}</div>}
 
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+        {/* Fila 1: Producto (Ancho Completo 100%) */}
         <div>
           <label className="form-label" htmlFor="mov-product">
             Producto (SKU & Nombre) *
@@ -116,7 +119,7 @@ export const MovementModal: React.FC<MovementModalProps> = ({
             onChange={(e) => setProductId(e.target.value)}
             required
             disabled={loading}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: 'pointer', width: '100%' }}
           >
             <option value="" disabled>
               Seleccione un producto...
@@ -129,7 +132,8 @@ export const MovementModal: React.FC<MovementModalProps> = ({
           </select>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+        {/* Fila 2: Tipo de Transacción y Cantidad (Grid 2 Columnas 50% / 50%) */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, alignItems: 'flex-start' }}>
           <div>
             <label className="form-label" htmlFor="mov-type">
               Tipo de Transacción *
@@ -141,14 +145,16 @@ export const MovementModal: React.FC<MovementModalProps> = ({
               onChange={(e) => setType(e.target.value as MovementType)}
               required
               disabled={loading}
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: 'pointer', width: '100%' }}
             >
               <option value="ENTRADA">ENTRADA (+ Stock)</option>
               <option value="SALIDA">SALIDA (- Stock)</option>
               <option value="AJUSTE_POSITIVO">AJUSTE POSITIVO (+)</option>
               <option value="AJUSTE_NEGATIVO">AJUSTE NEGATIVO (-)</option>
             </select>
-            <small className="help-text">{getMovementDescription(type)}</small>
+            <span className="help-text">
+              {getMovementDescription(type)}
+            </span>
           </div>
 
           <div>
@@ -166,39 +172,83 @@ export const MovementModal: React.FC<MovementModalProps> = ({
               placeholder="Ej. 100"
               required
               disabled={loading}
+              style={{ width: '100%' }}
             />
+            <span className="help-text">
+              Unidades enteras a registrar
+            </span>
           </div>
         </div>
 
-        <div>
-          <label className="form-label" htmlFor="mov-ref">Documento de Referencia</label>
-          <input
-            id="mov-ref"
-            className="in"
-            type="text"
-            value={referenceDoc}
-            onChange={(e) => setReferenceDoc(e.target.value)}
-            placeholder="Ej. REC-002, FAC-1049, AJU-001"
-            disabled={loading}
-          />
-          <small className="help-text">Orden de compra, factura, guía o número de ajuste.</small>
+        {/* Fila 3: Documento de Referencia y Responsable (Grid 2 Columnas 50% / 50%) */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, alignItems: 'flex-start' }}>
+          <div>
+            <label className="form-label" htmlFor="mov-ref">
+              Documento de Referencia
+            </label>
+            <input
+              id="mov-ref"
+              className="in"
+              type="text"
+              value={referenceDoc}
+              onChange={(e) => setReferenceDoc(e.target.value)}
+              placeholder="Ej. REC-002, FAC-1049, AJU-001"
+              disabled={loading}
+              style={{ width: '100%' }}
+            />
+            <span className="help-text">
+              Orden de compra, factura, guía o comprobante
+            </span>
+          </div>
+
+          <div>
+            <label className="form-label" htmlFor="mov-responsible">
+              Responsable de Operación
+            </label>
+            <input
+              id="mov-responsible"
+              className="in"
+              type="text"
+              value={responsible}
+              onChange={(e) => setResponsible(e.target.value)}
+              placeholder="Nombre o correo del operador"
+              disabled={loading}
+              style={{ width: '100%' }}
+            />
+            <span className="help-text">
+              Usuario que ejecuta y audita el movimiento
+            </span>
+          </div>
         </div>
 
+        {/* Fila 4: Observaciones / Motivo (Ancho Completo 100%) */}
         <div>
-          <label className="form-label" htmlFor="mov-notes">Observaciones / Motivo</label>
+          <label className="form-label" htmlFor="mov-notes">
+            Observaciones / Motivo
+          </label>
           <textarea
             id="mov-notes"
             className="in"
-            style={{ minHeight: 70, resize: 'vertical' }}
-            rows={2}
+            style={{ minHeight: 84, resize: 'vertical', width: '100%' }}
+            rows={3}
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            placeholder="Detalle o justificación de la transacción..."
+            placeholder="Detalle o justificación de la transacción en Kardex..."
             disabled={loading}
           />
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 12, paddingTop: 16, borderTop: '1px solid var(--border-color)' }}>
+        {/* Footer: Botones Cancelar y Confirmar */}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            gap: 12,
+            marginTop: 8,
+            paddingTop: 16,
+            borderTop: '1px solid var(--border-color)',
+          }}
+        >
           <Button variant="secondary" onClick={onClose} disabled={loading} type="button">
             Cancelar
           </Button>
