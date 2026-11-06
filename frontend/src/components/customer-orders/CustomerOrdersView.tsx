@@ -6,6 +6,7 @@ import type {
 } from '../../services/customer-orders/customer-orders.types.js';
 import { CreateOrderModal } from './CreateOrderModal.js';
 import { DispatchModal } from './DispatchModal.js';
+import { Pill } from '../ui/Pill.js';
 
 export const CustomerOrdersView: React.FC = () => {
   const [orders, setOrders] = useState<CustomerOrder[]>([]);
@@ -88,13 +89,13 @@ export const CustomerOrdersView: React.FC = () => {
   const renderStatusBadge = (status: OrderStatus) => {
     switch (status) {
       case 'PENDING':
-        return <span className="badge badge-warning">PENDIENTE</span>;
+        return <Pill variant="warning">PENDIENTE</Pill>;
       case 'PARTIAL':
-        return <span className="badge badge-info">PARCIAL</span>;
+        return <Pill variant="info">PARCIAL</Pill>;
       case 'COMPLETED':
-        return <span className="badge badge-success">COMPLETADO</span>;
+        return <Pill variant="success">COMPLETADO</Pill>;
       case 'CANCELLED':
-        return <span className="badge badge-danger">CANCELADO</span>;
+        return <Pill variant="danger">CANCELADO</Pill>;
     }
   };
 
@@ -251,11 +252,11 @@ export const CustomerOrdersView: React.FC = () => {
                     </td>
                     <td style={{ textAlign: 'center' }}>{renderStatusBadge(order.status)}</td>
                     <td style={{ textAlign: 'center' }}>
-                      <div className="action-buttons-center">
+                      <div style={{ display: 'flex', gap: 8, justifyContent: 'center', alignItems: 'center' }}>
                         {canDispatch && (
                           <button
                             type="button"
-                            className="btn-action btn-action-success"
+                            className="btn sm"
                             onClick={() => setDispatchOrder(order)}
                             title="Registrar despacho físico"
                           >
@@ -265,7 +266,7 @@ export const CustomerOrdersView: React.FC = () => {
                         {(order.status === 'PENDING' || order.status === 'PARTIAL') && (
                           <button
                             type="button"
-                            className="btn-action btn-action-danger"
+                            className="btn btn2 sm"
                             onClick={() => handleCancelOrder(order)}
                             title="Cancelar orden y liberar reserva"
                           >
@@ -273,10 +274,10 @@ export const CustomerOrdersView: React.FC = () => {
                           </button>
                         )}
                         {order.status === 'COMPLETED' && (
-                          <span className="text-muted text-xs">Completado</span>
+                          <span className="text-muted" style={{ fontSize: 13 }}>Completado</span>
                         )}
                         {order.status === 'CANCELLED' && (
-                          <span className="text-muted text-xs">Anulado</span>
+                          <span className="text-muted" style={{ fontSize: 13 }}>Anulado</span>
                         )}
                       </div>
                     </td>

@@ -5,6 +5,7 @@ import type {
 } from '../../services/purchase-orders/purchase-orders.types.js';
 import type { OrderStatus } from '../../services/customer-orders/customer-orders.types.js';
 import { CreatePurchaseOrderModal } from './CreatePurchaseOrderModal.js';
+import { Pill } from '../ui/Pill.js';
 
 export const PurchaseOrdersView: React.FC = () => {
   const [orders, setOrders] = useState<PurchaseOrder[]>([]);
@@ -88,13 +89,13 @@ export const PurchaseOrdersView: React.FC = () => {
   const renderStatusBadge = (status: OrderStatus) => {
     switch (status) {
       case 'PENDING':
-        return <span className="badge badge-warning">EN TRÁNSITO</span>;
+        return <Pill variant="warning">EN TRÁNSITO</Pill>;
       case 'PARTIAL':
-        return <span className="badge badge-info">RECIBIDO PARCIAL</span>;
+        return <Pill variant="info">RECIBIDO PARCIAL</Pill>;
       case 'COMPLETED':
-        return <span className="badge badge-success">COMPLETADO</span>;
+        return <Pill variant="success">COMPLETADO</Pill>;
       case 'CANCELLED':
-        return <span className="badge badge-danger">CANCELADO</span>;
+        return <Pill variant="danger">CANCELADO</Pill>;
     }
   };
 
@@ -256,7 +257,7 @@ export const PurchaseOrdersView: React.FC = () => {
                       {canCancel && (
                         <button
                           type="button"
-                          className="btn-action btn-action-danger"
+                          className="btn btn2 sm"
                           onClick={() => handleCancelOrder(order)}
                           title="Cancelar orden de compra"
                         >
@@ -264,10 +265,10 @@ export const PurchaseOrdersView: React.FC = () => {
                         </button>
                       )}
                       {order.status === 'COMPLETED' && (
-                        <span className="text-muted text-xs">Recibido 100%</span>
+                        <span className="text-muted" style={{ fontSize: 13 }}>Recibido 100%</span>
                       )}
                       {order.status === 'CANCELLED' && (
-                        <span className="text-muted text-xs">Anulada</span>
+                        <span className="text-muted" style={{ fontSize: 13 }}>Anulada</span>
                       )}
                     </td>
                   </tr>

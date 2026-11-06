@@ -4,6 +4,7 @@ import { categoriesService } from '../../services/categories/categories.service.
 import type { Product } from '../../services/products/products.types.js';
 import type { Category } from '../../services/categories/categories.types.js';
 import { ProductModal } from './ProductModal.js';
+import { Pill } from '../ui/Pill.js';
 
 export const ProductList: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -176,17 +177,15 @@ export const ProductList: React.FC = () => {
                     <span className="stock-threshold sec-threshold">{p.securityStock}</span>
                   </td>
                   <td>
-                    <span
-                      className={`status-pill ${p.isActive ? 'status-active' : 'status-inactive'}`}
-                    >
+                    <Pill variant={p.isActive ? 'success' : 'danger'}>
                       {p.isActive ? 'Activo' : 'Inactivo'}
-                    </span>
+                    </Pill>
                   </td>
                   <td>
-                    <div className="action-buttons">
+                    <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                       <button
                         type="button"
-                        className="btn-action btn-edit"
+                        className="btn btn2 sm"
                         title="Editar parámetros"
                         onClick={() => handleOpenEditModal(p)}
                       >
@@ -194,7 +193,7 @@ export const ProductList: React.FC = () => {
                       </button>
                       <button
                         type="button"
-                        className={`btn-action ${p.isActive ? 'btn-deactivate' : 'btn-activate'}`}
+                        className={`btn sm ${p.isActive ? 'btn-danger' : 'btn2'}`}
                         title={p.isActive ? 'Desactivar SKU' : 'Activar SKU'}
                         onClick={() => handleToggleStatus(p)}
                       >

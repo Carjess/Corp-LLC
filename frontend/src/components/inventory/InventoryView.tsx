@@ -6,6 +6,7 @@ import type {
   ProductStockSummary,
 } from '../../services/inventory/inventory.types.js';
 import { MovementModal } from './MovementModal.js';
+import { Pill } from '../ui/Pill.js';
 
 type InventoryTab = 'stock' | 'kardex';
 
@@ -120,24 +121,24 @@ export const InventoryView: React.FC = () => {
   const renderBadgeType = (type: MovementType) => {
     switch (type) {
       case 'ENTRADA':
-        return <span className="badge badge-success">ENTRADA</span>;
+        return <Pill variant="success">ENTRADA</Pill>;
       case 'SALIDA':
-        return <span className="badge badge-danger">SALIDA</span>;
+        return <Pill variant="danger">SALIDA</Pill>;
       case 'AJUSTE_POSITIVO':
-        return <span className="badge badge-info">AJUSTE (+)</span>;
+        return <Pill variant="info">AJUSTE (+)</Pill>;
       case 'AJUSTE_NEGATIVO':
-        return <span className="badge badge-warning">AJUSTE (-)</span>;
+        return <Pill variant="warning">AJUSTE (-)</Pill>;
     }
   };
 
   const renderAlertBadge = (status: 'CRITICO' | 'BAJO' | 'OK') => {
     switch (status) {
       case 'CRITICO':
-        return <span className="badge badge-danger">CRÍTICO</span>;
+        return <Pill variant="danger">CRÍTICO</Pill>;
       case 'BAJO':
-        return <span className="badge badge-warning">BAJO</span>;
+        return <Pill variant="warning">BAJO</Pill>;
       case 'OK':
-        return <span className="badge badge-success">OK</span>;
+        return <Pill variant="success">OK</Pill>;
     }
   };
 
