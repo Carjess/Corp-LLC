@@ -7,6 +7,7 @@ import { databaseConfig } from './config/database.config.js';
 import { SeedModule } from './database/seeds/seed.module.js';
 import { CategoriesModule } from './modules/categories/categories.module.js';
 import { ProductsModule } from './modules/products/products.module.js';
+import { InventoryModule } from './modules/inventory/inventory.module.js';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ProductsModule } from './modules/products/products.module.js';
     SeedModule,
     CategoriesModule,
     ProductsModule,
+    InventoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
