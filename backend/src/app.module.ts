@@ -10,6 +10,8 @@ import { ProductsModule } from './modules/products/products.module.js';
 import { InventoryModule } from './modules/inventory/inventory.module.js';
 import { CustomersModule } from './modules/customers/customers.module.js';
 import { CustomerOrdersModule } from './modules/customer-orders/customer-orders.module.js';
+import { SuppliersModule } from './modules/suppliers/suppliers.module.js';
+import { PurchaseOrdersModule } from './modules/purchase-orders/purchase-orders.module.js';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { CustomerOrdersModule } from './modules/customer-orders/customer-orders.
     InventoryModule,
     CustomersModule,
     CustomerOrdersModule,
+    SuppliersModule,
+    PurchaseOrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
