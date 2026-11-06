@@ -6,6 +6,7 @@ import { InventoryView } from './components/inventory/InventoryView.js';
 import { CustomerOrdersView } from './components/customer-orders/CustomerOrdersView.js';
 import { PurchaseOrdersView } from './components/purchase-orders/PurchaseOrdersView.js';
 import { ReceiptsView } from './components/receipts/ReceiptsView.js';
+import { StockCountsView } from './components/stock-counts/StockCountsView.js';
 
 function App() {
   const [activeTab, setActiveTab] = useState<TabKey>('products');
@@ -25,17 +26,7 @@ function App() {
 
         {activeTab === 'receipts' && <ReceiptsView />}
 
-        {activeTab === 'stock-counts' && (
-          <div className="placeholder-module">
-            <div className="placeholder-card">
-              <span className="step-tag">Paso 8 del Plan</span>
-              <h3>Módulo de Conteos Físicos y Auditoría de Ajustes</h3>
-              <p>
-                Este módulo se implementará en el <strong>Paso 8</strong>: Conteos ciegos periódicos, cálculo de desviaciones y aprobación auditada de ajustes de inventario.
-              </p>
-            </div>
-          </div>
-        )}
+        {activeTab === 'stock-counts' && <StockCountsView />}
 
         {activeTab === 'replenishment' && (
           <div className="placeholder-module">
