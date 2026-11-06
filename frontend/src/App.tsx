@@ -5,6 +5,7 @@ import { ProductList } from './components/products/ProductList.js';
 import { InventoryView } from './components/inventory/InventoryView.js';
 import { CustomerOrdersView } from './components/customer-orders/CustomerOrdersView.js';
 import { PurchaseOrdersView } from './components/purchase-orders/PurchaseOrdersView.js';
+import { ReceiptsView } from './components/receipts/ReceiptsView.js';
 
 function App() {
   const [activeTab, setActiveTab] = useState<TabKey>('products');
@@ -22,17 +23,7 @@ function App() {
 
         {activeTab === 'purchase-orders' && <PurchaseOrdersView />}
 
-        {activeTab === 'receipts' && (
-          <div className="placeholder-module">
-            <div className="placeholder-card">
-              <span className="step-tag">Paso 7 del Plan</span>
-              <h3>Módulo de Recepción de Mercancía en Almacén</h3>
-              <p>
-                Este módulo se implementará en el <strong>Paso 7</strong>: Verificación física en muelle de descarga, recepciones parciales y entradas automáticas al stock físico.
-              </p>
-            </div>
-          </div>
-        )}
+        {activeTab === 'receipts' && <ReceiptsView />}
 
         {activeTab === 'stock-counts' && (
           <div className="placeholder-module">
