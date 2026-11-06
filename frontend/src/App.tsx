@@ -4,6 +4,7 @@ import { Navbar, type TabKey } from './components/navigation/Navbar.js';
 import { ProductList } from './components/products/ProductList.js';
 import { InventoryView } from './components/inventory/InventoryView.js';
 import { CustomerOrdersView } from './components/customer-orders/CustomerOrdersView.js';
+import { PurchaseOrdersView } from './components/purchase-orders/PurchaseOrdersView.js';
 
 function App() {
   const [activeTab, setActiveTab] = useState<TabKey>('products');
@@ -19,17 +20,7 @@ function App() {
 
         {activeTab === 'customer-orders' && <CustomerOrdersView />}
 
-        {activeTab === 'purchase-orders' && (
-          <div className="placeholder-module">
-            <div className="placeholder-card">
-              <span className="step-tag">Paso 6 del Plan</span>
-              <h3>Módulo de Compras a Proveedores (Abastecimiento)</h3>
-              <p>
-                Este módulo se implementará en el <strong>Paso 6</strong>: Órdenes de compra a fabricantes, monitoreo de plazos y control de mercancía en tránsito.
-              </p>
-            </div>
-          </div>
-        )}
+        {activeTab === 'purchase-orders' && <PurchaseOrdersView />}
 
         {activeTab === 'receipts' && (
           <div className="placeholder-module">

@@ -972,3 +972,14 @@ body {
   background: #fee2e2;
 }
 
+.info-banner-transit {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1e40af;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+
