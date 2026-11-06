@@ -12,6 +12,7 @@ import { CustomersModule } from './modules/customers/customers.module.js';
 import { CustomerOrdersModule } from './modules/customer-orders/customer-orders.module.js';
 import { SuppliersModule } from './modules/suppliers/suppliers.module.js';
 import { PurchaseOrdersModule } from './modules/purchase-orders/purchase-orders.module.js';
+import { ReceiptsModule } from './modules/receipts/receipts.module.js';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { PurchaseOrdersModule } from './modules/purchase-orders/purchase-orders.
     CustomerOrdersModule,
     SuppliersModule,
     PurchaseOrdersModule,
+    ReceiptsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
