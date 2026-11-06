@@ -3,6 +3,7 @@ import './App.css';
 import { Navbar, type TabKey } from './components/navigation/Navbar.js';
 import { ProductList } from './components/products/ProductList.js';
 import { InventoryView } from './components/inventory/InventoryView.js';
+import { CustomerOrdersView } from './components/customer-orders/CustomerOrdersView.js';
 
 function App() {
   const [activeTab, setActiveTab] = useState<TabKey>('products');
@@ -16,17 +17,7 @@ function App() {
 
         {activeTab === 'inventory' && <InventoryView />}
 
-        {activeTab === 'customer-orders' && (
-          <div className="placeholder-module">
-            <div className="placeholder-card">
-              <span className="step-tag">Paso 5 del Plan</span>
-              <h3>Módulo de Pedidos de Clientes (Demanda y Reservas)</h3>
-              <p>
-                Este módulo se implementará en el <strong>Paso 5</strong>: Registro de demanda, reserva de inventario físico y despachos con salidas automáticas del Kardex.
-              </p>
-            </div>
-          </div>
-        )}
+        {activeTab === 'customer-orders' && <CustomerOrdersView />}
 
         {activeTab === 'purchase-orders' && (
           <div className="placeholder-module">
