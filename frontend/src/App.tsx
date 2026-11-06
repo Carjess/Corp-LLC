@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import { Navbar, type TabKey } from './components/navigation/Navbar.js';
 import { ProductList } from './components/products/ProductList.js';
+import { InventoryView } from './components/inventory/InventoryView.js';
 
 function App() {
   const [activeTab, setActiveTab] = useState<TabKey>('products');
@@ -13,17 +14,7 @@ function App() {
       <main className="main-content">
         {activeTab === 'products' && <ProductList />}
 
-        {activeTab === 'inventory' && (
-          <div className="placeholder-module">
-            <div className="placeholder-card">
-              <span className="step-tag">Paso 4 del Plan</span>
-              <h3>Módulo de Inventario & Kardex Inmutable</h3>
-              <p>
-                Este módulo se implementará en el <strong>Paso 4</strong>: Saldos en tiempo real (Físico, Reservado, Disponible) e historial inmutable de movimientos.
-              </p>
-            </div>
-          </div>
-        )}
+        {activeTab === 'inventory' && <InventoryView />}
 
         {activeTab === 'customer-orders' && (
           <div className="placeholder-module">
