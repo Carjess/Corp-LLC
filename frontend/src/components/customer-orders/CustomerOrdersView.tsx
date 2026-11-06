@@ -122,28 +122,36 @@ export const CustomerOrdersView: React.FC = () => {
 
       {/* KPI Cards */}
       <div className="kpi-grid">
-        <div className="kpi-card">
-          <span className="kpi-label">Pedidos Activos</span>
-          <span className="kpi-value text-warning">{activeOrdersCount}</span>
-          <span className="kpi-subtext">Órdenes pendientes o en despacho parcial</span>
+        <div className="card card-brand" style={{ padding: 24 }}>
+          <p style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>Pedidos Activos</p>
+          <p className="d font-display" style={{ fontSize: 46, marginTop: 8, fontWeight: 700, lineHeight: 1 }}>
+            {activeOrdersCount}
+          </p>
+          <p style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>Órdenes pendientes o en despacho parcial</p>
         </div>
 
-        <div className="kpi-card">
-          <span className="kpi-label">Unidades Comprometidas</span>
-          <span className="kpi-value text-primary">{totalReservedUnits.toLocaleString()}</span>
-          <span className="kpi-subtext">Stock reservado físicamente en almacén</span>
+        <div className="card card-brand" style={{ padding: 24 }}>
+          <p style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>Unidades Comprometidas</p>
+          <p className="d font-display" style={{ fontSize: 46, marginTop: 8, fontWeight: 700, lineHeight: 1 }}>
+            {totalReservedUnits.toLocaleString()}
+          </p>
+          <p style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>Stock reservado físicamente en almacén</p>
         </div>
 
-        <div className="kpi-card">
-          <span className="kpi-label">Pedidos Completados</span>
-          <span className="kpi-value text-success">{completedOrdersCount}</span>
-          <span className="kpi-subtext">Despachos totales entregados a satisfacción</span>
+        <div className="card card-brand" style={{ padding: 24 }}>
+          <p style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>Pedidos Completados</p>
+          <p className="d font-display" style={{ fontSize: 46, marginTop: 8, fontWeight: 700, lineHeight: 1 }}>
+            {completedOrdersCount}
+          </p>
+          <p style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>Despachos entregados a satisfacción</p>
         </div>
 
-        <div className="kpi-card">
-          <span className="kpi-label">Distribuidores Atendidos</span>
-          <span className="kpi-value text-info">{uniqueCustomersCount}</span>
-          <span className="kpi-subtext">Clientes activos con órdenes registradas</span>
+        <div className="card card-brand" style={{ padding: 24 }}>
+          <p style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>Distribuidores Atendidos</p>
+          <p className="d font-display" style={{ fontSize: 46, marginTop: 8, fontWeight: 700, lineHeight: 1 }}>
+            {uniqueCustomersCount}
+          </p>
+          <p style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>Clientes con órdenes registradas</p>
         </div>
       </div>
 

@@ -6,13 +6,9 @@ import type {
 } from '../../services/replenishment/replenishment.types.js';
 import { Pill } from '../ui/Pill.js';
 import {
-  AlertTriangle,
   ArrowRight,
-  CheckCircle2,
   Info,
-  Package,
   RefreshCw,
-  Truck,
 } from 'lucide-react';
 
 export const ReplenishmentView: React.FC = () => {
@@ -166,59 +162,36 @@ export const ReplenishmentView: React.FC = () => {
 
       {/* 3. Tarjetas KPI */}
       <div className="kpi-grid">
-        <div className="kpi-card" style={{ borderRadius: '24px', padding: '18px 22px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span className="kpi-label">SKUs en Catálogo</span>
-            <Package size={20} style={{ color: 'var(--text-muted)' }} />
-          </div>
-          <span className="kpi-value">{summary?.totalActiveSkus ?? 0}</span>
-          <span className="kpi-subtext">Artículos con seguimiento continuo</span>
+        <div className="card card-brand" style={{ padding: 24 }}>
+          <p style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>SKUs en Catálogo</p>
+          <p className="d font-display" style={{ fontSize: 46, marginTop: 8, fontWeight: 700, lineHeight: 1 }}>
+            {summary?.totalActiveSkus ?? 0}
+          </p>
+          <p style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>Artículos con seguimiento continuo</p>
         </div>
 
-        <div
-          className="kpi-card"
-          style={{
-            borderRadius: '24px',
-            padding: '18px 22px',
-            borderLeft: summary?.criticalReorderCount ? '4px solid #f87171' : undefined,
-          }}
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span className="kpi-label" style={{ color: summary?.criticalReorderCount ? '#dc2626' : undefined }}>
-              Alerta de Reorden
-            </span>
-            <AlertTriangle size={20} style={{ color: summary?.criticalReorderCount ? '#ef4444' : 'var(--text-muted)' }} />
-          </div>
-          <span className="kpi-value" style={{ color: summary?.criticalReorderCount ? '#dc2626' : undefined }}>
+        <div className="card card-brand" style={{ padding: 24 }}>
+          <p style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>Alerta de Reorden</p>
+          <p className="d font-display" style={{ fontSize: 46, marginTop: 8, fontWeight: 700, lineHeight: 1 }}>
             {summary?.criticalReorderCount ?? 0}
-          </span>
-          <span className="kpi-subtext">Productos en o por debajo de su ROP</span>
+          </p>
+          <p style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>Productos en o bajo su ROP</p>
         </div>
 
-        <div className="kpi-card" style={{ borderRadius: '24px', padding: '18px 22px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span className="kpi-label" style={{ color: '#059669' }}>
-              Posición Segura (OK)
-            </span>
-            <CheckCircle2 size={20} style={{ color: '#10b981' }} />
-          </div>
-          <span className="kpi-value" style={{ color: '#059669' }}>
+        <div className="card card-brand" style={{ padding: 24 }}>
+          <p style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>Posición Segura (OK)</p>
+          <p className="d font-display" style={{ fontSize: 46, marginTop: 8, fontWeight: 700, lineHeight: 1 }}>
             {summary?.safeStockCount ?? 0}
-          </span>
-          <span className="kpi-subtext">Existencias + tránsito suficientes</span>
+          </p>
+          <p style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>Existencias + tránsito suficientes</p>
         </div>
 
-        <div className="kpi-card" style={{ borderRadius: '24px', padding: '18px 22px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span className="kpi-label" style={{ color: '#2563eb' }}>
-              En Tránsito Global
-            </span>
-            <Truck size={20} style={{ color: '#3b82f6' }} />
-          </div>
-          <span className="kpi-value" style={{ color: '#2563eb' }}>
+        <div className="card card-brand" style={{ padding: 24 }}>
+          <p style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>En Tránsito Global</p>
+          <p className="d font-display" style={{ fontSize: 46, marginTop: 8, fontWeight: 700, lineHeight: 1 }}>
             {summary?.totalInTransitUnits ?? 0}
-          </span>
-          <span className="kpi-subtext">Unidades pedidas pendientes de arribo</span>
+          </p>
+          <p style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>Unidades pedidas pendientes de arribo</p>
         </div>
       </div>
 

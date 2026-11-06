@@ -116,22 +116,28 @@ export const StockCountsView: React.FC = () => {
 
       {/* KPI Cards */}
       <div className="kpi-grid">
-        <div className="kpi-card">
-          <span className="kpi-label">Auditorías Realizadas</span>
-          <span className="kpi-value text-primary">{totalAudits}</span>
-          <span className="kpi-subtext">Conteos ciegos registrados en estantería</span>
+        <div className="card card-brand" style={{ padding: 24 }}>
+          <p style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>Auditorías Realizadas</p>
+          <p className="d font-display" style={{ fontSize: 46, marginTop: 8, fontWeight: 700, lineHeight: 1 }}>
+            {totalAudits}
+          </p>
+          <p style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>Conteos ciegos registrados en estantería</p>
         </div>
 
-        <div className="kpi-card">
-          <span className="kpi-label">Conteos Cuadrados (Exactos)</span>
-          <span className="kpi-value text-success">{balancedAudits}</span>
-          <span className="kpi-subtext">Artículos sin discrepancia física</span>
+        <div className="card card-brand" style={{ padding: 24 }}>
+          <p style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>Conteos Cuadrados (Exactos)</p>
+          <p className="d font-display" style={{ fontSize: 46, marginTop: 8, fontWeight: 700, lineHeight: 1 }}>
+            {balancedAudits}
+          </p>
+          <p style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>Artículos sin discrepancia física</p>
         </div>
 
-        <div className="kpi-card">
-          <span className="kpi-label">Ajustes Auditados al Kardex</span>
-          <span className="kpi-value text-warning">{appliedAdjustments}</span>
-          <span className="kpi-subtext">Variaciones justificadas con salida/entrada</span>
+        <div className="card card-brand" style={{ padding: 24 }}>
+          <p style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>Ajustes Auditados al Kardex</p>
+          <p className="d font-display" style={{ fontSize: 46, marginTop: 8, fontWeight: 700, lineHeight: 1 }}>
+            {appliedAdjustments}
+          </p>
+          <p style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>Variaciones justificadas con salida/entrada</p>
         </div>
       </div>
 

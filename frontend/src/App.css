@@ -694,45 +694,54 @@ button, input, select, textarea, .btn, .sidebar-nav-item {
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  gap: 20px;
+  margin-bottom: 24px;
 }
 
-.kpi-card {
-  background: #ffffff;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 1.15rem 1.25rem;
+.kpi-card,
+.card-brand.kpi-card {
+  background: var(--brand-primary) !important;
+  color: var(--brand-primary-text) !important;
+  border: 1px solid var(--brand-primary) !important;
+  border-radius: 28px !important;
+  padding: 24px !important;
   display: flex;
   flex-direction: column;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-card);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-sizing: border-box;
 }
 
 .kpi-card:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 8px 24px -4px rgba(78, 222, 163, 0.35);
 }
 
 .kpi-label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.35rem;
+  font-size: 13px !important;
+  opacity: 0.85;
+  font-weight: 500 !important;
+  color: var(--brand-primary-text) !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  margin-bottom: 0 !important;
 }
 
 .kpi-value {
-  font-size: 1.85rem;
-  font-weight: 800;
-  line-height: 1.2;
-  margin-bottom: 0.25rem;
+  font-family: var(--font-display) !important;
+  font-size: 46px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  margin-top: 8px !important;
+  margin-bottom: 4px !important;
+  color: var(--brand-primary-text) !important;
 }
 
 .kpi-subtext {
-  font-size: 0.75rem;
-  color: var(--text-muted);
+  font-size: 12px !important;
+  opacity: 0.8;
+  color: var(--brand-primary-text) !important;
+  margin-top: 4px !important;
 }
 
 .subtabs-bar {

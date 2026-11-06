@@ -92,22 +92,28 @@ export const ReceiptsView: React.FC = () => {
 
       {/* KPI Cards */}
       <div className="kpi-grid">
-        <div className="kpi-card">
-          <span className="kpi-label">Recepciones Realizadas</span>
-          <span className="kpi-value text-primary">{totalReceiptsCount}</span>
-          <span className="kpi-subtext">Comprobantes REC emitidos en muelle</span>
+        <div className="card card-brand" style={{ padding: 24 }}>
+          <p style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>Recepciones Realizadas</p>
+          <p className="d font-display" style={{ fontSize: 46, marginTop: 8, fontWeight: 700, lineHeight: 1 }}>
+            {totalReceiptsCount}
+          </p>
+          <p style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>Comprobantes REC emitidos en muelle</p>
         </div>
 
-        <div className="kpi-card">
-          <span className="kpi-label">Unidades Físicas Ingresadas</span>
-          <span className="kpi-value text-success">{totalUnitsAccepted.toLocaleString()}</span>
-          <span className="kpi-subtext">Suministros sumados al Kardex e inventario físico</span>
+        <div className="card card-brand" style={{ padding: 24 }}>
+          <p style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>Unidades Físicas Ingresadas</p>
+          <p className="d font-display" style={{ fontSize: 46, marginTop: 8, fontWeight: 700, lineHeight: 1 }}>
+            {totalUnitsAccepted.toLocaleString()}
+          </p>
+          <p style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>Suministros sumados al Kardex e inventario físico</p>
         </div>
 
-        <div className="kpi-card">
-          <span className="kpi-label">Órdenes Pendientes de Descarga</span>
-          <span className="kpi-value text-warning">{openPoCount}</span>
-          <span className="kpi-subtext">Órdenes de compra abiertas a fabricantes</span>
+        <div className="card card-brand" style={{ padding: 24 }}>
+          <p style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>Órdenes Pendientes de Descarga</p>
+          <p className="d font-display" style={{ fontSize: 46, marginTop: 8, fontWeight: 700, lineHeight: 1 }}>
+            {openPoCount}
+          </p>
+          <p style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>Órdenes de compra abiertas a fabricantes</p>
         </div>
       </div>
 

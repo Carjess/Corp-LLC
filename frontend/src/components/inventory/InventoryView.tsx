@@ -165,30 +165,36 @@ export const InventoryView: React.FC = () => {
 
       {/* Tarjetas KPI de Resumen */}
       <div className="kpi-grid">
-        <div className="kpi-card">
-          <span className="kpi-label">Stock Físico Total</span>
-          <span className="kpi-value text-primary">{totalPhysicalStock.toLocaleString()}</span>
-          <span className="kpi-subtext">Unidades en almacén central</span>
+        <div className="card card-brand" style={{ padding: 24 }}>
+          <p style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>Stock Físico Total</p>
+          <p className="d font-display" style={{ fontSize: 46, marginTop: 8, fontWeight: 700, lineHeight: 1 }}>
+            {totalPhysicalStock.toLocaleString()}
+          </p>
+          <p style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>Unidades en almacén central</p>
         </div>
 
-        <div className="kpi-card">
-          <span className="kpi-label">Stock Reservado Total</span>
-          <span className="kpi-value text-warning">{totalReservedStock.toLocaleString()}</span>
-          <span className="kpi-subtext">Comprometido en pedidos de clientes</span>
+        <div className="card card-brand" style={{ padding: 24 }}>
+          <p style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>Stock Reservado Total</p>
+          <p className="d font-display" style={{ fontSize: 46, marginTop: 8, fontWeight: 700, lineHeight: 1 }}>
+            {totalReservedStock.toLocaleString()}
+          </p>
+          <p style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>Comprometido en pedidos de clientes</p>
         </div>
 
-        <div className="kpi-card">
-          <span className="kpi-label">Stock Disponible Total</span>
-          <span className="kpi-value text-success">{totalAvailableStock.toLocaleString()}</span>
-          <span className="kpi-subtext">Físico - Reservado (libre para venta)</span>
+        <div className="card card-brand" style={{ padding: 24 }}>
+          <p style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>Stock Disponible Total</p>
+          <p className="d font-display" style={{ fontSize: 46, marginTop: 8, fontWeight: 700, lineHeight: 1 }}>
+            {totalAvailableStock.toLocaleString()}
+          </p>
+          <p style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>Físico - Reservado (libre para venta)</p>
         </div>
 
-        <div className="kpi-card">
-          <span className="kpi-label">Alertas de Stock</span>
-          <span className={`kpi-value ${criticalAlertsCount > 0 ? 'text-danger' : 'text-success'}`}>
+        <div className="card card-brand" style={{ padding: 24 }}>
+          <p style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>Alertas de Stock</p>
+          <p className="d font-display" style={{ fontSize: 46, marginTop: 8, fontWeight: 700, lineHeight: 1 }}>
             {criticalAlertsCount}
-          </span>
-          <span className="kpi-subtext">SKUs bajo el umbral de seguridad</span>
+          </p>
+          <p style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>SKUs bajo el umbral de seguridad</p>
         </div>
       </div>
 

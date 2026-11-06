@@ -122,28 +122,36 @@ export const PurchaseOrdersView: React.FC = () => {
 
       {/* KPI Cards */}
       <div className="kpi-grid">
-        <div className="kpi-card">
-          <span className="kpi-label">Órdenes en Curso</span>
-          <span className="kpi-value text-warning">{activeOrdersCount}</span>
-          <span className="kpi-subtext">Órdenes de compra abiertas a fabricantes</span>
+        <div className="card card-brand" style={{ padding: 24 }}>
+          <p style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>Órdenes en Curso</p>
+          <p className="d font-display" style={{ fontSize: 46, marginTop: 8, fontWeight: 700, lineHeight: 1 }}>
+            {activeOrdersCount}
+          </p>
+          <p style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>Órdenes de compra abiertas a fabricantes</p>
         </div>
 
-        <div className="kpi-card">
-          <span className="kpi-label">Mercancía en Tránsito</span>
-          <span className="kpi-value text-primary">{totalTransitUnits.toLocaleString()}</span>
-          <span className="kpi-subtext">Unidades en camino hacia el muelle central</span>
+        <div className="card card-brand" style={{ padding: 24 }}>
+          <p style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>Mercancía en Tránsito</p>
+          <p className="d font-display" style={{ fontSize: 46, marginTop: 8, fontWeight: 700, lineHeight: 1 }}>
+            {totalTransitUnits.toLocaleString()}
+          </p>
+          <p style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>Unidades en camino hacia el muelle central</p>
         </div>
 
-        <div className="kpi-card">
-          <span className="kpi-label">Órdenes Recibidas</span>
-          <span className="kpi-value text-success">{completedOrdersCount}</span>
-          <span className="kpi-subtext">Entregas totales ingresadas a estantería</span>
+        <div className="card card-brand" style={{ padding: 24 }}>
+          <p style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>Órdenes Recibidas</p>
+          <p className="d font-display" style={{ fontSize: 46, marginTop: 8, fontWeight: 700, lineHeight: 1 }}>
+            {completedOrdersCount}
+          </p>
+          <p style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>Entregas totales ingresadas a estantería</p>
         </div>
 
-        <div className="kpi-card">
-          <span className="kpi-label">Proveedores Activos</span>
-          <span className="kpi-value text-info">{uniqueSuppliersCount}</span>
-          <span className="kpi-subtext">Fabricantes asociados con órdenes emitidas</span>
+        <div className="card card-brand" style={{ padding: 24 }}>
+          <p style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>Proveedores Activos</p>
+          <p className="d font-display" style={{ fontSize: 46, marginTop: 8, fontWeight: 700, lineHeight: 1 }}>
+            {uniqueSuppliersCount}
+          </p>
+          <p style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>Fabricantes asociados con órdenes emitidas</p>
         </div>
       </div>
 
