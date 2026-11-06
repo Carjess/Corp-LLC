@@ -1,0 +1,279 @@
+/* ==========================================================================
+   JULIAM CORP LLC — SISTEMA DE DISEÑO Y PALETA DE COLORES
+   Inspirado en The Empire C.A. (Modo Claro pulido y moderno).
+   ========================================================================== */
+
+:root {
+  /* ========================================================================
+     1. TIPOGRAFÍAS
+     ======================================================================== */
+  --font-display: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-code: ui-monospace, Menlo, Monaco, Consolas, monospace;
+
+  /* ========================================================================
+     2. ESTRUCTURA Y FONDOS GENERALES (MODO CLARO)
+     ======================================================================== */
+  --bg-app: #f3f8f5;           /* Fondo general de la aplicación */
+  --bg-surface: #ffffff;       /* Fondo blanco de tarjetas, sidebar y modales */
+  --bg-input: #ffffff;         /* Fondo blanco puro para inputs */
+  --border-color: #e0e9e4;     /* Color de los bordes y líneas divisorias */
+  --text-main: #10231b;        /* Texto principal carbón orgánico */
+  --text-muted: #5a6f65;       /* Texto secundario atenuado */
+
+  /* ========================================================================
+     3. COLOR DE MARCA (VERDE MENTA INSIGNIA)
+     ======================================================================== */
+  --brand-primary: #4edea3;       /* Verde menta insignia */
+  --brand-primary-text: #04251a;  /* Texto oscuro sobre fondo verde */
+  --brand-primary-hover: #3fc892; /* Hover botón primario */
+
+  /* ========================================================================
+     4. ESTADOS Y ETIQUETAS (PILLS / BADGES) - MODO CLARO
+     ======================================================================== */
+  --status-success-bg: #d9f7e8;
+  --status-success-text: #067a3d;
+
+  --status-warning-bg: #fff1c9;
+  --status-warning-text: #7a5200;
+
+  --status-info-bg: #e3ecff;
+  --status-info-text: #2b3f8f;
+
+  --status-danger-bg: #fde2de;
+  --status-danger-text: #b3382a;
+
+  --status-pending-bg: #e8f0ec;
+  --status-pending-text: #3b5148;
+
+  --status-tag-bg: #eefaf4;
+  --status-tag-text: #0a7a54;
+  --status-tag-border: #d3efe2;
+
+  /* ========================================================================
+     5. SOMBRAS Y MODALES
+     ======================================================================== */
+  --shadow-card: 0 4px 20px -2px rgba(16, 35, 27, 0.05);
+  --shadow-modal: 0 20px 40px -10px rgba(4, 15, 10, 0.25);
+  --overlay-backdrop: rgba(4, 15, 10, 0.65);
+}
+
+/* ==========================================================================
+   ESTILOS BASE
+   ========================================================================== */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--text-main);
+}
+
+p {
+  margin: 0;
+}
+
+.font-code {
+  font-family: var(--font-code);
+}
+
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+/* ==========================================================================
+   CLASES REUTILIZABLES DE COMPONENTES
+   ========================================================================== */
+
+/* Tarjetas (28px de radio) */
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 28px !important;
+  box-shadow: var(--shadow-card);
+  transition: all 0.2s ease;
+}
+
+.card-brand, .card.card-brand {
+  background: var(--brand-primary) !important;
+  color: var(--brand-primary-text) !important;
+  border-color: var(--brand-primary) !important;
+}
+
+/* Botones en píldora */
+.btn {
+  border: 0 !important;
+  border-radius: 999px !important;
+  padding: 10px 22px !important;
+  min-height: 42px;
+  background: var(--brand-primary) !important;
+  color: var(--brand-primary-text) !important;
+  font-family: var(--font-body) !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--brand-primary-hover) !important;
+  transform: translateY(-1px);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: var(--bg-surface) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-main) !important;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--bg-app) !important;
+  border-color: var(--text-muted) !important;
+}
+
+.btn-danger {
+  background: var(--status-danger-bg) !important;
+  color: var(--status-danger-text) !important;
+  border: 1px solid transparent !important;
+}
+
+.btn-sm {
+  padding: 6px 14px !important;
+  min-height: 32px;
+  font-size: 13px !important;
+}
+
+/* Inputs y Controles de Formulario */
+.form-input {
+  width: 100%;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 16px !important;
+  padding: 12px 16px !important;
+  min-height: 44px;
+  background: var(--bg-input) !important;
+  font-family: var(--font-body) !important;
+  font-size: 14px !important;
+  color: var(--text-main) !important;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input:focus {
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 0 0 3px rgba(78, 222, 163, 0.25);
+}
+
+.form-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.75;
+}
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0 0 6px 4px;
+  font-weight: 500;
+}
+
+/* Insignias / Píldoras de Estado (Pills) */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.pill-success {
+  background: var(--status-success-bg);
+  color: var(--status-success-text);
+}
+
+.pill-warning {
+  background: var(--status-warning-bg);
+  color: var(--status-warning-text);
+}
+
+.pill-info {
+  background: var(--status-info-bg);
+  color: var(--status-info-text);
+}
+
+.pill-danger {
+  background: var(--status-danger-bg);
+  color: var(--status-danger-text);
+}
+
+.pill-pending {
+  background: var(--status-pending-bg);
+  color: var(--status-pending-text);
+}
+
+.pill-tag {
+  background: var(--status-tag-bg);
+  color: var(--status-tag-text);
+  border: 1px solid var(--status-tag-border);
+}
+
+/* Tablas con estilo suave */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.data-table th {
+  background-color: var(--bg-app);
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-color);
+  text-align: left;
+}
+
+.data-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-main);
+  vertical-align: middle;
+}
+
+.data-table tbody tr:hover {
+  background-color: #fafdfb;
+}
+
