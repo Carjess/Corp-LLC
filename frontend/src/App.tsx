@@ -7,6 +7,7 @@ import { CustomerOrdersView } from './components/customer-orders/CustomerOrdersV
 import { PurchaseOrdersView } from './components/purchase-orders/PurchaseOrdersView.js';
 import { ReceiptsView } from './components/receipts/ReceiptsView.js';
 import { StockCountsView } from './components/stock-counts/StockCountsView.js';
+import { ReplenishmentView } from './components/replenishment/ReplenishmentView.js';
 
 function App() {
   const [activeTab, setActiveTab] = useState<TabKey>('products');
@@ -28,17 +29,7 @@ function App() {
 
         {activeTab === 'stock-counts' && <StockCountsView />}
 
-        {activeTab === 'replenishment' && (
-          <div className="placeholder-module">
-            <div className="placeholder-card">
-              <span className="step-tag">Paso 9 del Plan</span>
-              <h3>Módulo de Reposición y Sugerencias de Compra</h3>
-              <p>
-                Este módulo se implementará en el <strong>Paso 9</strong>: Motor matemático de Punto de Reorden ($ROP$), Posición de Inventario y sugerencias automáticas de abastecimiento.
-              </p>
-            </div>
-          </div>
-        )}
+        {activeTab === 'replenishment' && <ReplenishmentView />}
 
         {activeTab === 'dashboard' && (
           <div className="placeholder-module">
