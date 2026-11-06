@@ -11,7 +11,7 @@ import { ReplenishmentView } from './components/replenishment/ReplenishmentView.
 import { DashboardView } from './components/dashboard/DashboardView.js';
 
 function App() {
-  const [activeTab, setActiveTab] = useState<TabKey>('products');
+  const [activeTab, setActiveTab] = useState<TabKey>('dashboard');
 
   return (
     <div className="app-layout">

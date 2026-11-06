@@ -11,14 +11,14 @@ import {
 } from 'lucide-react';
 
 export type TabKey =
+  | 'dashboard'
   | 'products'
   | 'inventory'
   | 'customer-orders'
   | 'purchase-orders'
   | 'receipts'
-  | 'stock-counts'
   | 'replenishment'
-  | 'dashboard';
+  | 'stock-counts';
 
 interface NavigationItem {
   key: TabKey;
@@ -27,14 +27,14 @@ interface NavigationItem {
 }
 
 const navigationItems: NavigationItem[] = [
-  { key: 'products', title: 'Catálogo Productos', icon: <Package size={17} /> },
-  { key: 'inventory', title: 'Inventario & Kardex', icon: <Boxes size={17} /> },
-  { key: 'customer-orders', title: 'Pedidos Clientes', icon: <ShoppingCart size={17} /> },
-  { key: 'purchase-orders', title: 'Compras Fabricantes', icon: <Truck size={17} /> },
-  { key: 'receipts', title: 'Recepción Muelle', icon: <FolderTree size={17} /> },
-  { key: 'stock-counts', title: 'Conteos Físicos', icon: <ClipboardCheck size={17} /> },
-  { key: 'replenishment', title: 'Punto de Reorden', icon: <RefreshCw size={17} /> },
-  { key: 'dashboard', title: 'Dashboard', icon: <LayoutDashboard size={17} /> },
+  { key: 'dashboard', title: 'Dashboard General', icon: <LayoutDashboard size={20} /> },
+  { key: 'products', title: 'Catálogo de SKUs', icon: <Package size={20} /> },
+  { key: 'inventory', title: 'Inventario & Kardex', icon: <Boxes size={20} /> },
+  { key: 'customer-orders', title: 'Pedidos de Clientes', icon: <ShoppingCart size={20} /> },
+  { key: 'purchase-orders', title: 'Compras Fabricantes', icon: <Truck size={20} /> },
+  { key: 'receipts', title: 'Recepción en Muelle', icon: <FolderTree size={20} /> },
+  { key: 'replenishment', title: 'Punto de Reorden (ROP)', icon: <RefreshCw size={20} /> },
+  { key: 'stock-counts', title: 'Conteos & Auditoría', icon: <ClipboardCheck size={20} /> },
 ];
 
 interface SidebarProps {
@@ -84,10 +84,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
         </div>
         <div className="user-details">
           <b className="user-name">juliam@admin.com</b>
-          <span className="user-role">Administrador</span>
+          <span className="user-role">Administrador de Almacén</span>
         </div>
       </div>
     </aside>
   );
 };
-
